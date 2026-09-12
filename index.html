@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle Financeiro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Controle Financeiro</h1>
+
+  <div>
+    <p>Saldo</p>
+    <h2 id="saldo">R$ 0,00</h2>
+  </div>
+
+  <div>
+    <p>Entradas</p>
+    <h2 id="entradas">R$ 0,00</h2>
+  </div>
+
+  <div>
+    <p>Despesas</p>
+    <h2 id="despesas">R$ 0,00</h2>
+  </div>
+
+  <h3>Histórico</h3>
+  <ul id="historico">
+    <li>Nenhuma movimentação.</li>
+  </ul>
+
+  <h3>Novo lançamento</h3>
+  <form id="formulario">
+
+    <label>
+      <input type="radio" name="tipo" value="entrada" checked>
+      Entrada
+    </label>
+    <label>
+      <input type="radio" name="tipo" value="despesa">
+      Despesa
+    </label>
+
+    <br><br>
+
+    <input type="text" id="descricao" placeholder="Descrição" required>
+    <input type="number" id="valor" placeholder="Valor" step="0.01" required>
+
+    <p id="mensagemErro" style="color: #96422b; display: none;"></p>
+
+    <button type="submit" id="botaoSalvar">Adicionar</button>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>

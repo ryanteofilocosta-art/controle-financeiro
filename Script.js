@@ -8,6 +8,7 @@ let indiceEmEdicao = null;
 const form = document.getElementById('formulario');
 const listaHistorico = document.getElementById('historico');
 const botaoSalvar = document.getElementById('botaoSalvar');
+const botaoCancelar = document.getElementById('botaoCancelar');
 
 form.addEventListener('submit', function (evento) {
   evento.preventDefault();
@@ -40,7 +41,11 @@ form.addEventListener('submit', function (evento) {
 
   localStorage.setItem('transacoes', JSON.stringify(transacoes));
   renderizarTudo();
+  if(indiceEmEdicao !==null) {
+    sairDoModoEDicao();
+  } else{
   form.reset();
+  }
 });
 
 function mostrarErro(texto) {
@@ -58,6 +63,7 @@ function editarTransacao(indice) {
   document.getElementById('valor').value = t.valor;
 
   botaoSalvar.textContent = 'Salvar edição';
+  botaoCancelar.style.display ='block';
   document.getElementById('descricao').focus();
 }
 
@@ -103,6 +109,7 @@ function renderizarTudo() {
     listaHistorico.prepend(item);
   });
 
+
   document.getElementById('saldo').textContent = formatarMoeda(saldo);
   document.getElementById('entradas').textContent = formatarMoeda(entradas);
   document.getElementById('despesas').textContent = formatarMoeda(despesas);
@@ -117,5 +124,12 @@ function excluirTransacao(indice) {
 function formatarMoeda(valor) {
   return valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 }
+  function sairDoModoEdicao() {
+    indiceEmEdicao = null;
+    botaoSalvar.textContent = 'Adicionar';
+    botaoCancelar.style.display = 'none';
+    form.reset();
+  }
+  botaoCancelar.addEventListener('click', sairDoModoEdicao);
 
 renderizarTudo();

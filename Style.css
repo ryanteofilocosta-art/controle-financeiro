@@ -63,3 +63,10 @@ ul li button {
   color: #96422b;
   font-size: 16px;
 }
+input, select, button {
+  display:block;
+  width:100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  box-sizing: border-box;
+}

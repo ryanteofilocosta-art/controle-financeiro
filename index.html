@@ -50,7 +50,19 @@
 
     <button type="submit" id="botaoSalvar">Adicionar</button>
     <button type="button" id=" botaoCancelar" style="display: none;">Cancelar edição</button>
+    <input type="text" id="descricao" placeholder="Descrição" required>
+    <input type="number" id="valor" placeholder="Valor" step="0.01" required>
+
+    <select id="categoria">
+      <option value="Alimentação">Alimentação</option>
+      <option value="Transporte">Transporte</option>     
+      <option value="Moradia">Moradia</option>
+      <option value="Lazer">Lazer</option> 
+      <option value="Salario">Salario</option> 
+      <option value="Outros" selected>Outros</option>
+    </select>
   </form>
+
 
   <script src="script.js"></script>
 </body>

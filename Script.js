@@ -16,6 +16,7 @@ form.addEventListener('submit', function (evento) {
   const tipo = document.querySelector('input[name="tipo"]:checked').value;
   const descricao = document.getElementById('descricao').value.trim();
   const valor = parseFloat(document.getElementById('valor').value);
+  const categoria= document.getElementById('categoria').value;
 
   if (!descricao) {
     mostrarErro('Escreva uma descrição.');
@@ -30,11 +31,12 @@ form.addEventListener('submit', function (evento) {
   document.getElementById('mensagemErro').style.display = 'none';
 
   if (indiceEmEdicao === null) {
-    transacoes.push({ tipo, descricao, valor, data: new Date() });
+    transacoes.push({ tipo, descricao, valor, categoria, data: new Date() });
   } else {
     transacoes[indiceEmEdicao].tipo = tipo;
     transacoes[indiceEmEdicao].descricao = descricao;
     transacoes[indiceEmEdicao].valor = valor;
+    transacoes[indiceEmEdicao].categoria = categoria;
     indiceEmEdicao = null;
     botaoSalvar.textContent = 'Adicionar';
   }
@@ -61,6 +63,7 @@ function editarTransacao(indice) {
   document.querySelector('input[value="' + t.tipo + '"]').checked = true;
   document.getElementById('descricao').value = t.descricao;
   document.getElementById('valor').value = t.valor;
+  document.getElementById('categoria').value = t.categoria;
 
   botaoSalvar.textContent = 'Salvar edição';
   botaoCancelar.style.display ='block';
@@ -89,8 +92,9 @@ function renderizarTudo() {
     const dataFormatada = t.data.toLocaleDateString('pt-br', { day: '2-digit', month: 'short' });
 
     const texto = document.createElement('span');
-    texto.textContent = dataFormatada + ' — ' + t.descricao + ': ' + sinal + formatarMoeda(t.valor);
+    texto.textContent = dataFormatada + '[' + t.categoria + ']' + t.descricao + ': ' + sinal + formatarMoeda(t.valor);
 
+      
     const botaoEditar = document.createElement('button');
     botaoEditar.textContent = '✎';
     botaoEditar.addEventListener('click', function () {

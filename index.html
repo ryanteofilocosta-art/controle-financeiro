@@ -25,6 +25,9 @@
   </div>
 
   <h3>Histórico</h3>
+  <label for="filtroMes">Filtrar por mês:</label>
+  <input type="month" id="filtroMes">
+  <button type="button" id="botaoLimparFiltro">Mostrar todos</button>
   <ul id="historico">
     <li>Nenhuma movimentação.</li>
   </ul>
@@ -61,6 +64,7 @@
       <option value="Salario">Salario</option> 
       <option value="Outros" selected>Outros</option>
     </select>
+    <input type="date" id="dataLancamento">
   </form>
 
 

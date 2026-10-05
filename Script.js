@@ -187,6 +187,12 @@ botaoLimparFiltro.addEventListener('click', function (){
 });
 
 function excluirTransacao(indice) {
+  const t= transacoes[indice];
+  const confirmou = confirm('Excluir "' + t.descricao + '" (' + formatarMoeda(t.valor) + ')?');
+
+  if (!confirmou) {
+    return;
+  }
   transacoes.splice(indice, 1);
   localStorage.setItem('transacoes', JSON.stringify(transacoes));
   renderizarTudo();

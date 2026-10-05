@@ -12,6 +12,7 @@ const botaoCancelar = document.getElementById('botaoCancelar');
 const filtroMes = document.getElementById('filtroMes');
 const botaoLimparFiltro = document.getElementById('botaoLimparFiltro');
 const inputData = document.getElementById('dataLancamento');
+const botaoExportar = document.getElementById('botaoExportar');
 
 form.addEventListener('submit', function (evento) {
   evento.preventDefault();
@@ -41,7 +42,7 @@ form.addEventListener('submit', function (evento) {
     transacoes[indiceEmEdicao].descricao = descricao;
     transacoes[indiceEmEdicao].valor = valor;
     transacoes[indiceEmEdicao].categoria = categoria;
-    transacoes[iniceEmEdicao].data = data;
+    transacoes[indiceEmEdicao].data = data;
 
     indiceEmEdicao = null;
     botaoSalvar.textContent = 'Adicionar';
@@ -56,6 +57,36 @@ form.addEventListener('submit', function (evento) {
   definirDataDeHoje();
   }
 });
+function exportarCSV(){
+  const mesSelecionado = filtroMes.value;
+
+  const transacoesParaExportar = transacoes.filter(function (t){
+    if(!mesSelecionado) return true;
+    return chaveMes(t.data) === mesSelecionado;
+  });
+  if (transacoesParaExportar.length === 0){
+    mostrarErro('Não há lançamentos para exportar. ');
+    return;
+  }
+  let conteudoCSV = 'Data,tipo,Categoria,Descrição,Valor\n';
+  
+  transacoesParaExportar.forEach(function (t){
+    const dataFormatada = t.data.toLocaleDateString('pt-br');
+    const linha = [dataFormatada, t.tipo, t.categoria, t.descricao, t.valor.toFixed(2)];
+    conteudoCSV += linha.join(',') + '\n';
+  });
+  const blob = new Blob([conteudoCSV], {type: 'text/csv;charset=utf-8;'});
+  const  url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'historico-financeiro.csv';
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+botaoExportar.addEventListener('click', exportarCSV);
 
 function mostrarErro(texto) {
   const mensagemErro = document.getElementById('mensagemErro');

@@ -28,6 +28,7 @@
   <label for="filtroMes">Filtrar por mês:</label>
   <input type="month" id="filtroMes">
   <button type="button" id="botaoLimparFiltro">Mostrar todos</button>
+  <button type="button" id="botaoExportar">Exportar CSV</button>
   <ul id="historico">
     <li>Nenhuma movimentação.</li>
   </ul>
@@ -46,15 +47,10 @@
 
     <br><br>
 
-    <input type="text" id="descricao" placeholder="Descrição" required>
+       <input type="text" id="descricao" placeholder="Descrição" required>
     <input type="number" id="valor" placeholder="Valor" step="0.01" required>
 
     <p id="mensagemErro" style="color: #96422b; display: none;"></p>
-
-    <button type="submit" id="botaoSalvar">Adicionar</button>
-    <button type="button" id=" botaoCancelar" style="display: none;">Cancelar edição</button>
-    <input type="text" id="descricao" placeholder="Descrição" required>
-    <input type="number" id="valor" placeholder="Valor" step="0.01" required>
 
     <select id="categoria">
       <option value="Alimentação">Alimentação</option>
@@ -65,6 +61,9 @@
       <option value="Outros" selected>Outros</option>
     </select>
     <input type="date" id="dataLancamento">
+
+    <button type="submit" id="botaoSalvar">Adicionar</button>
+    <button type="button" id="botaoCancelar" style="display: none;">Cancelar edição</button>
   </form>
 
 

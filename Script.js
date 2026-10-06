@@ -24,37 +24,42 @@ form.addEventListener('submit', function (evento) {
   const data = new Date(inputData.value + 'T00:00:00');
 
   if (!descricao) {
-    mostrarErro('Escreva uma descrição.');
+    mostrarMensagem('Escreva uma descrição.' , 'erro');
     return;
   }
 
   if (!valor || valor <= 0) {
-    mostrarErro('O valor precisa ser maior que zero.');
+    mostrarMensagem('O valor precisa ser maior que zero.', 'erro');
     return;
   }
 
-  document.getElementById('mensagemErro').style.display = 'none';
+  document.getElementById('mensagemFeedback').style.display = 'none';
 
   if (indiceEmEdicao === null) {
     transacoes.push({ tipo, descricao, valor, categoria, data: data });
+    mostrarMensagem('Lançamento atualizado ', 'sucesso');
   } else {
     transacoes[indiceEmEdicao].tipo = tipo;
     transacoes[indiceEmEdicao].descricao = descricao;
     transacoes[indiceEmEdicao].valor = valor;
     transacoes[indiceEmEdicao].categoria = categoria;
     transacoes[indiceEmEdicao].data = data;
+    
 
     indiceEmEdicao = null;
     botaoSalvar.textContent = 'Adicionar';
   }
 
-  localStorage.setItem('transacoes', JSON.stringify(transacoes));
+    localStorage.setItem('transacoes', JSON.stringify(transacoes));
   renderizarTudo();
+
+  const dataEscolhida = inputData.value;
+
   if(indiceEmEdicao !==null) {
     sairDoModoEdicao();
-  } else{
-  form.reset();
-  definirDataDeHoje();
+  } else {
+    form.reset();
+    inputData.value = dataEscolhida;
   }
 });
 function exportarCSV(){
@@ -65,7 +70,7 @@ function exportarCSV(){
     return chaveMes(t.data) === mesSelecionado;
   });
   if (transacoesParaExportar.length === 0){
-    mostrarErro('Não há lançamentos para exportar. ');
+    mostrarMensagem('Não há lançamentos para exportar. ', 'erro');
     return;
   }
   let conteudoCSV = 'Data,tipo,Categoria,Descrição,Valor\n';
@@ -88,10 +93,12 @@ function exportarCSV(){
 
 botaoExportar.addEventListener('click', exportarCSV);
 
-function mostrarErro(texto) {
-  const mensagemErro = document.getElementById('mensagemErro');
-  mensagemErro.textContent = texto;
-  mensagemErro.style.display = 'block';
+function mostrarMensagem(texto, tipo) {
+  const mensagem = document.getElementById('mensagemFeedback');
+  mensagem.textContent = texto;
+  mensagem.style.color = tipo === 'sucesso' ? '#2f5233' : '#96422b';
+  mensagem.style.display = 'block';
+  
 }
 
 function editarTransacao(indice) {
@@ -179,10 +186,16 @@ function renderizarTudo() {
   document.getElementById('despesas').textContent = formatarMoeda(despesas);
   }
 
-filtroMes.addEventListener('change', renderizarTudo);
+filtroMes.addEventListener('change', function () {
+  if (filtroMes.value) {
+    inputData.value = filtroMes.value + '-01';
+  }
+  renderizarTudo();
+});
 
 botaoLimparFiltro.addEventListener('click', function (){
   filtroMes.value = '';
+  definirDataDeHoje();
   renderizarTudo();
 });
 
